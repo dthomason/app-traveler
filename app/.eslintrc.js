@@ -69,10 +69,10 @@ module.exports = {
     ],
     'padding-line-between-statements': [
       'warn',
-      {blankLine: 'always', prev: '*', next: 'return'},
-      {blankLine: 'always', prev: '*', next: 'block-like'},
-      {blankLine: 'always', prev: 'block-like', next: '*'},
-      {blankLine: 'always', prev: ['const', 'let', 'var'], next: '*'},
+      { blankLine: 'always', prev: '*', next: 'return' },
+      { blankLine: 'always', prev: '*', next: 'block-like' },
+      { blankLine: 'always', prev: 'block-like', next: '*' },
+      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
       {
         blankLine: 'any',
         prev: ['const', 'let', 'var'],
@@ -86,7 +86,7 @@ module.exports = {
         ignoreDeclarationSort: true,
       },
     ],
-    'spaced-comment': ['warn', 'always', {block: {balanced: true}}],
+    'spaced-comment': ['warn', 'always', { block: { balanced: true } }],
     // Temporary overrides that we'll want to change back to errors
     'no-inner-declarations': 'warn',
     'no-prototype-builtins': 'warn',
