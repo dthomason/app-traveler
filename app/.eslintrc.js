@@ -20,7 +20,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 2018,
+    ecmaVersion: 2021,
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint', 'react-native'],
@@ -93,6 +93,12 @@ module.exports = {
     'no-redeclare': 'warn',
   },
   overrides: [
+    {
+      files: ['app/src/**/*'],
+      env: {
+        browser: true,
+      },
+    },
     {
       files: ['*.jsx', '*.tsx'],
       extends: ['plugin:react/recommended', 'plugin:import/react'],

@@ -1,67 +1,28 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-import { Config } from 'react-native-config';
-import { createApi } from 'unsplash-js';
 
-const accessKey = Config.UNSPLASH_ACCESS_KEY;
+import { useFeed, UserImage } from '../hooks';
 
-const api = createApi({ accessKey });
-
-interface ImageSet {
-  id: string;
-  description: string;
-  url: string;
+interface RenderedItem {
+  item: UserImage;
 }
 
-type ItemSet = {
-  item: ImageSet;
-};
-
-const renderItem = ({ item }: ItemSet) => (
-  <View
-    style={{ alignItems: 'center' }}
-    key={`${item.id}${new Date().getTime()}`}
-  >
+const renderItem = ({ item }: RenderedItem) => (
+  <View style={{ alignItems: 'center' }}>
     <Text>{item.description}</Text>
-    <Image source={{ uri: item.url }} style={{ width: 350, height: 550 }} />
+    <Image
+      source={{ uri: item.urls.regular }}
+      style={{ width: 350, height: 500 }}
+    />
   </View>
 );
 
 export const Home: FC = () => {
-  const [items, setItems] = useState<ImageSet[]>([]);
-  const [shouldFetch, setShouldFetch] = useState(true);
-  const getUnique = () => new Date().getTime();
+  const { addPage, items } = useFeed();
 
   const handleEndReached = () => {
-    console.log('SHOULD FETCH AGAIN');
-    setShouldFetch(true);
+    addPage();
   };
-
-  useEffect(() => {
-    if (!shouldFetch) return;
-
-    (async () => {
-      try {
-        const { response } = await api.collections.getPhotos({
-          collectionId: 'NOopMdOtWow',
-        });
-
-        if (!response?.results) return;
-
-        const data = response?.results.map(({ id, description, urls }) => ({
-          id: `${id}${getUnique()}`,
-          description,
-          url: `${urls.raw}&w=800`,
-        }));
-
-        setItems(current => (!current.length ? data : [...current, ...data]));
-        setShouldFetch(false);
-        console.log(`TOTAL IMAGES: ${data.length}`);
-      } catch (err) {
-        console.log({ err });
-      }
-    })();
-  }, [shouldFetch, setItems, setShouldFetch]);
 
   return (
     <View style={styles.container}>
@@ -72,7 +33,6 @@ export const Home: FC = () => {
         renderItem={renderItem}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
-        extraData={handleEndReached}
       />
     </View>
   );
