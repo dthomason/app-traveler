@@ -29,6 +29,7 @@ const theme = {
   Text: {
     style: {
       color: black,
+      fontFamily: 'Roboto-Regular',
     },
   },
 };
@@ -49,6 +50,7 @@ const DefaultElements = {
   Text: {
     style: {
       color: black,
+      fontFamily: 'Roboto-Regular',
     },
   },
 };
@@ -69,6 +71,7 @@ const DarkElements = {
   Text: {
     style: {
       color: white,
+      fontFamily: 'Roboto-Regular',
     },
   },
 };

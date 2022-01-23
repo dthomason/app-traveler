@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-elements';
 
 import { useFeed, UserImage } from '../hooks';
 
@@ -8,12 +9,19 @@ interface RenderedItem {
 }
 
 const renderItem = ({ item }: RenderedItem) => (
-  <View style={{ alignItems: 'center' }}>
-    <Text>{item.description}</Text>
+  <View style={{ alignItems: 'center', height: 600 }}>
     <Image
       source={{ uri: item.urls.regular }}
       style={{ width: 350, height: 500 }}
     />
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 30,
+      }}
+    />
+    <Text h4>{item.description}</Text>
   </View>
 );
 
@@ -41,10 +49,6 @@ export const Home: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // width: '100%',
-    // height: '100%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   box: {
     width: 200,
