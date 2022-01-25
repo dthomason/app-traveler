@@ -29,7 +29,7 @@ const theme = {
   Text: {
     style: {
       color: black,
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'System',
     },
   },
 };
@@ -50,7 +50,7 @@ const DefaultElements = {
   Text: {
     style: {
       color: black,
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'System',
     },
   },
 };
@@ -63,7 +63,7 @@ const DarkElements = {
     secondary: '#6AD45E',
     white: white,
     black: black,
-    card: '#2B2B2B',
+    card: '#101010',
     background: black,
     text: white,
     border: colors.grey0,
@@ -71,7 +71,7 @@ const DarkElements = {
   Text: {
     style: {
       color: white,
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'System',
     },
   },
 };

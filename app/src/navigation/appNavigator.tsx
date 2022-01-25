@@ -5,10 +5,12 @@ import {
 } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 
-import { Home } from '../screens';
+import { HeaderAppBar } from '../components';
+import { Home, Settings } from '../screens';
 
 export type AppParamList = {
   Home: undefined;
+  Settings: undefined;
 };
 
 export type AppScreenProps = BottomTabNavigationProp<
@@ -28,10 +30,17 @@ export type AppNavProps = {
   route: AppRoute;
 };
 
-export const AppNavigator: FC = () => {
+export const AppNavigator: FC = ({ children }) => {
   return (
-    <AppStack.Navigator initialRouteName="Home">
+    <AppStack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: true,
+        header: () => <HeaderAppBar>{children}</HeaderAppBar>,
+      }}
+    >
       <AppStack.Screen name="Home" component={Home} />
+      <AppStack.Screen name="Settings" component={Settings} />
     </AppStack.Navigator>
   );
 };
