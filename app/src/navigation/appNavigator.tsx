@@ -7,6 +7,7 @@ import React, { FC } from 'react';
 
 import { HeaderAppBar } from '../components';
 import { Home, Settings } from '../screens';
+import { FeedScreen } from '../screens/feed';
 
 export type AppParamList = {
   Home: undefined;
@@ -39,7 +40,7 @@ export const AppNavigator: FC = ({ children }) => {
         header: () => <HeaderAppBar>{children}</HeaderAppBar>,
       }}
     >
-      <AppStack.Screen name="Home" component={Home} />
+      <AppStack.Screen name="Home" component={FeedScreen} />
       <AppStack.Screen name="Settings" component={Settings} />
     </AppStack.Navigator>
   );

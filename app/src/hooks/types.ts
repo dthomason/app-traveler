@@ -69,27 +69,3 @@ export const userPhoto = {
 };
 
 export type UserImageInfo = typeof userPhoto;
-
-export type UserImage = {
-  description: string;
-  id: string;
-  width: number;
-  height: number;
-  urls: {
-    small: string;
-    regular: string;
-  };
-  likes: number;
-  liked_by_user: boolean;
-  color: string;
-  user: {
-    id: string;
-    username: string;
-    name: string;
-    profile_image: {
-      small: string;
-      medium: string;
-      large: string;
-    };
-  };
-};
