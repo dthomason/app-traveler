@@ -104,6 +104,8 @@ const DarkNav = {
   },
 };
 
+export type CustomTheme = ElementTheme & NavigationTheme;
+
 interface UseCustomTheme {
   theme: ElementTheme & NavigationTheme;
   iconColor: string;

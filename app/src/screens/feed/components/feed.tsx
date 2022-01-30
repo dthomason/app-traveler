@@ -1,17 +1,20 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, Card, Icon, Text } from 'react-native-elements';
 
 import { CustomTheme } from '../../../hooks';
 import { getHeight, UserImage } from '../utils';
+import { FeedFab } from './fab';
 
 interface Props {
   theme: CustomTheme;
   item: UserImage;
   width: number;
+  onPress?: () => void;
 }
 
-export const Feed: FC<Props> = ({ theme, item, width }) => {
+export const Feed: FC<Props> = ({ theme, item, width, onPress }) => {
+  const [expanded, setExpanded] = useState(false);
   const { colors } = theme;
   const { pad } = styles;
   const avatarImage = { uri: item.user.profileImage.medium };
@@ -35,6 +38,10 @@ export const Feed: FC<Props> = ({ theme, item, width }) => {
     marginRight: width - 200,
   };
 
+  const handlePress = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <View style={top}>
       <Card wrapperStyle={styles.cardWrapper} containerStyle={card}>
@@ -42,10 +49,12 @@ export const Feed: FC<Props> = ({ theme, item, width }) => {
           <Avatar
             source={avatarImage}
             rounded
+            onPress={handlePress}
             size="medium"
             containerStyle={pad}
           />
           <Text style={styles.username}>{item.user.username}</Text>
+          <FeedFab isExpanded={expanded} />
         </View>
         <Card.Image source={image} resizeMode="cover" style={imageStyle} />
         <View style={styles.bottomControls}>
@@ -53,20 +62,20 @@ export const Feed: FC<Props> = ({ theme, item, width }) => {
             style={pad}
             type="feather"
             tvParallaxProperties={undefined}
-            name="heart"
+            name="star"
             color={colors.text}
           />
           <Icon
-            type="feather"
+            type="fontisto"
             tvParallaxProperties={undefined}
-            name="message-circle"
+            name="hipchat"
             color={colors.text}
           />
           <Icon
             type="feather"
             style={pad}
             tvParallaxProperties={undefined}
-            name="send"
+            name="share"
             color={colors.text}
           />
           <Text>{`CITY: ${item.location}`}</Text>

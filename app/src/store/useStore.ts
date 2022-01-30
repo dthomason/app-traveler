@@ -6,10 +6,8 @@ import { devtools, persist } from 'zustand/middleware';
 
 import { im } from '../middleware/immerMiddleware';
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof create;
-  }
+if (typeof Window !== 'undefined' && Window.__REDUX_DEVTOOLS_EXTENSION__) {
+  Window.__REDUX_DEVTOOLS_EXTENSION__;
 }
 
 export const decodeToken = (token: string): TokenParams => {
@@ -84,57 +82,54 @@ export interface UserStore {
 }
 
 export const useStore = create<UserStore>(
-  devtools(
-    persist(
-      im(set => ({
-        countryCode: 'US',
-        currentStamp: '',
-        error: '',
-        hasHydrated: false,
-        isDark: false,
-        isOnboarding: true,
-        loading: true,
-        permissions: 'undefined',
-        recordIDs: [''],
-        signedIn: false,
-        successfulSync: false,
-        token: '',
-        typedValues: {},
-        userValues: {},
-        setIsOnboarding: (isOnboarding: boolean) => set({ isOnboarding }),
-        setCountryCode: (countryCode: CountryCode) => set({ countryCode }),
-        setCurrentStamp: (stamp: string) => set({ currentStamp: stamp }),
-        setSuccessfulSync: (result: boolean) => set({ successfulSync: result }),
-        setDarkMode: (dark: boolean) => set({ isDark: dark }),
-        setLoading: (loading: boolean) => set({ loading }),
-        setPermissions: (permissions: Permissions) => set({ permissions }),
-        setToken: async (token: string) => set({ token }),
-        setTypedValues: (typed: TypedValues) => {
-          set(draft => {
-            Object.assign(draft.typedValues, typed);
-          });
-        },
-        setSignedIn: (success: boolean) => set({ signedIn: success }),
-        updateUserValues: (values: InputUserValues) => {
-          set(draft => {
-            Object.assign(draft.userValues, values);
-          });
-        },
-      })),
-      {
-        name: 'MyPhoneUserStore-800',
-        getStorage: () => AsyncStorage,
-        partialize: state => ({
-          token: state.token,
-          signedIn: state.signedIn,
-          permissions: state.permissions,
-          currentStamp: state.currentStamp,
-        }),
-        onRehydrateStorage: () => () => {
-          useStore.setState({ hasHydrated: true });
-        },
+  persist(
+    im(set => ({
+      countryCode: 'US',
+      currentStamp: '',
+      error: '',
+      hasHydrated: false,
+      isDark: false,
+      isOnboarding: true,
+      loading: true,
+      permissions: 'undefined',
+      recordIDs: [''],
+      signedIn: false,
+      successfulSync: false,
+      token: '',
+      typedValues: {},
+      userValues: {},
+      setIsOnboarding: (isOnboarding: boolean) => set({ isOnboarding }),
+      setCountryCode: (countryCode: CountryCode) => set({ countryCode }),
+      setCurrentStamp: (stamp: string) => set({ currentStamp: stamp }),
+      setSuccessfulSync: (result: boolean) => set({ successfulSync: result }),
+      setDarkMode: (dark: boolean) => set({ isDark: dark }),
+      setLoading: (loading: boolean) => set({ loading }),
+      setPermissions: (permissions: Permissions) => set({ permissions }),
+      setToken: async (token: string) => set({ token }),
+      setTypedValues: (typed: TypedValues) => {
+        set(draft => {
+          Object.assign(draft.typedValues, typed);
+        });
       },
-    ),
-    { name: 'UserStore' },
+      setSignedIn: (success: boolean) => set({ signedIn: success }),
+      updateUserValues: (values: InputUserValues) => {
+        set(draft => {
+          Object.assign(draft.userValues, values);
+        });
+      },
+    })),
+    {
+      name: 'MyPhoneUserStore-800',
+      getStorage: () => AsyncStorage,
+      partialize: state => ({
+        token: state.token,
+        signedIn: state.signedIn,
+        permissions: state.permissions,
+        currentStamp: state.currentStamp,
+      }),
+      onRehydrateStorage: () => () => {
+        useStore.setState({ hasHydrated: true });
+      },
+    },
   ),
 );
