@@ -1,24 +1,41 @@
 import React, { FC, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, Card, Icon, Text } from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 
 import { CustomTheme } from '../../../hooks';
-import { getHeight, UserImage } from '../utils';
-import { FeedFab } from './fab';
+import { PhotoInfo } from '../hooks';
+
+interface Styled {
+  iconType: string;
+  name: string;
+}
 
 interface Props {
   theme: CustomTheme;
-  item: UserImage;
+  item: PhotoInfo;
   width: number;
   onPress?: () => void;
 }
 
-export const Feed: FC<Props> = ({ theme, item, width, onPress }) => {
+export const PhotoLayout: FC<Props> = ({ theme, item, width }) => {
   const [expanded, setExpanded] = useState(false);
   const { colors } = theme;
   const { pad } = styles;
-  const avatarImage = { uri: item.user.profileImage.medium };
-  const image = { uri: item.urls.regular };
+  const avatarImage = { uri: item.user.profile_image.medium };
+  const featured = `${item.urls.raw}?w=${width}&dpr=1`;
+
+  const StyledIcon = ({ iconType, name }: Styled) => (
+    <Icon
+      style={pad}
+      type={iconType}
+      tvParallaxProperties={undefined}
+      name={name}
+      color={colors.text}
+    />
+  );
+
+  const image = { uri: featured };
 
   const top = {
     ...styles.container,
@@ -31,7 +48,7 @@ export const Feed: FC<Props> = ({ theme, item, width, onPress }) => {
   const imageStyle = {
     ...styles.image,
     width,
-    height: getHeight(width, item.orientation),
+    height: item.height,
   };
   const pin = {
     ...styles.pin,
@@ -54,38 +71,13 @@ export const Feed: FC<Props> = ({ theme, item, width, onPress }) => {
             containerStyle={pad}
           />
           <Text style={styles.username}>{item.user.username}</Text>
-          <FeedFab isExpanded={expanded} />
         </View>
-        <Card.Image source={image} resizeMode="cover" style={imageStyle} />
+        <FastImage style={imageStyle} source={image} />
         <View style={styles.bottomControls}>
-          <Icon
-            style={pad}
-            type="feather"
-            tvParallaxProperties={undefined}
-            name="star"
-            color={colors.text}
-          />
-          <Icon
-            type="fontisto"
-            tvParallaxProperties={undefined}
-            name="hipchat"
-            color={colors.text}
-          />
-          <Icon
-            type="feather"
-            style={pad}
-            tvParallaxProperties={undefined}
-            name="share"
-            color={colors.text}
-          />
-          <Text>{`CITY: ${item.location}`}</Text>
-          <Icon
-            type="feather"
-            style={pin}
-            tvParallaxProperties={undefined}
-            name="map-pin"
-            color={colors.text}
-          />
+          <StyledIcon iconType="feather" name="star" />
+          <StyledIcon iconType="fontisto" name="hipchat" />
+          <StyledIcon iconType="feather" name="share" />
+          <StyledIcon iconType="feather" name="map-pin" />
         </View>
         <Text style={styles.likes}>
           {item.likes > 1 ? `${item.likes} Likes` : `${item.likes} Like`}

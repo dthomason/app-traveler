@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 
 import { useFeed } from './hooks';
 
-export const FeedScreen: FC = () => {
+export const Feed: FC = () => {
   const { addPage, items, renderItem } = useFeed();
 
   const handleEndReached = () => {
@@ -13,7 +13,7 @@ export const FeedScreen: FC = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        initialNumToRender={3}
+        initialNumToRender={2}
         data={items}
         keyExtractor={(item, i) => `${item.id}${i}`}
         renderItem={renderItem}
