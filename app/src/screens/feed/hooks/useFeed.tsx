@@ -1,22 +1,24 @@
+import axios from 'axios';
+import { merge } from 'lodash';
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 
 import { search, fetch } from '../../../api';
-import { merge } from 'lodash';
 import { unsplash } from '../../../api/config';
-import { FetchPhotoResponse } from '../../../api/fetch';
-import { fetchPhotoResponse } from '../../../api/fetch/responses';
+import { FetchPhotoResponse } from '../../../api/get';
+import { fetchPhotoResponse } from '../../../api/get/responses';
 import { SearchPhotoResult, SearchPhotosResponse } from '../../../api/search';
 import { useCustomTheme } from '../../../hooks/useCustomTheme';
 import { PhotoLayout } from '../components/layout';
+import { getHeight, getOrientation } from '../utils';
 
 export type PhotoInfo = FetchPhotoResponse & SearchPhotoResult;
 
 interface Item {
-  item: PhotoInfo;
+  item: SearchPhotoResult;
 }
 interface UseFeed {
-  items: PhotoInfo[];
+  items: SearchPhotoResult[];
   addPage: () => void;
   renderItem: ({ item }: Item) => ReactElement;
   onPress: () => void;
@@ -25,7 +27,7 @@ interface UseFeed {
 
 export const useFeed = (): UseFeed => {
   const [expanded, setExpanded] = useState(false);
-  const [items, setItems] = useState<PhotoInfo[]>([]);
+  const [items, setItems] = useState<SearchPhotoResult[]>([]);
   const [page, setPage] = useState(1);
   const { width } = useWindowDimensions();
   const { theme } = useCustomTheme();
@@ -39,48 +41,38 @@ export const useFeed = (): UseFeed => {
     setExpanded(!expanded);
   };
 
-  const renderItem = ({ item }: Item) => (
-    <PhotoLayout item={item} theme={theme} width={width} />
-  );
+  const renderItem = ({ item }: Item) => {
+    const orientation = getOrientation(item.width, item.height);
+    const height = getHeight(width, orientation);
+
+    return (
+      <PhotoLayout item={item} theme={theme} width={width} height={height} />
+    );
+  };
 
   useEffect(() => {
     if (prevPage.current >= page) return;
 
-    const photoBatch = (results: SearchPhotoResult[]): Promise<PhotoInfo[]> => {
-      const mapped = Promise.all(
-        results.map(async value => {
-          const config = fetch.photo({
-            raw: value.urls.raw,
-            width,
-          });
-
-          const { data } = await unsplash.request<FetchPhotoResponse>(config);
-
-          return merge(value, data);
-        }),
-      );
-
-      return mapped;
-    };
-
     (async () => {
       try {
-        const config = search.photos('beach', page);
-        const { data } = await unsplash.request<SearchPhotosResponse>(config);
-        const photos = await photoBatch(data.results);
+        const searchUrl = `https://api.unsplash.com/search/photos?page=1&query=beach`;
+        const { data } = await unsplash.get<SearchPhotosResponse>(searchUrl);
+        const results = data.results.map(value => {
+          value.urls.raw = `${value.urls.raw}&w=${width}`;
 
-        if (photos) {
-          setItems((prev: PhotoInfo[]) => {
-            return prevPage.current === 0 ? photos : [...prev, ...photos];
-          });
-        }
+          return value;
+        });
+
+        setItems(prev => {
+          return prevPage.current === 0 ? results : [...prev, ...results];
+        });
 
         prevPage.current = page;
       } catch (err) {
         return;
       }
     })();
-  }, [page, prevPage, setItems, width]);
+  }, [page, width]);
 
   return {
     expanded,

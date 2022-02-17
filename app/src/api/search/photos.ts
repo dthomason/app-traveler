@@ -13,6 +13,6 @@ export type SearchPhotoResult = typeof searchPhotoResult;
 export const photos = (query: string, page: number): CreateConfig => {
   return {
     method: 'GET',
-    url: `/search/photos?page=${page}&query=${query}`,
+    url: `/search/photos?page=${page}&query=${query}&count=1`,
   } as const;
 };

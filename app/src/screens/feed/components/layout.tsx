@@ -1,10 +1,9 @@
 import React, { FC, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Avatar, Card, Icon, Text } from 'react-native-elements';
-import FastImage from 'react-native-fast-image';
 
+import { SearchPhotoResult } from '../../../api/search';
 import { CustomTheme } from '../../../hooks';
-import { PhotoInfo } from '../hooks';
 
 interface Styled {
   iconType: string;
@@ -13,17 +12,17 @@ interface Styled {
 
 interface Props {
   theme: CustomTheme;
-  item: PhotoInfo;
+  item: SearchPhotoResult;
   width: number;
+  height: number;
   onPress?: () => void;
 }
 
-export const PhotoLayout: FC<Props> = ({ theme, item, width }) => {
+export const PhotoLayout: FC<Props> = ({ theme, item, width, height }) => {
   const [expanded, setExpanded] = useState(false);
   const { colors } = theme;
   const { pad } = styles;
-  const avatarImage = { uri: item.user.profile_image.medium };
-  const featured = `${item.urls.raw}?w=${width}&dpr=1`;
+  const avatarImage = { uri: item.user.profile_image.small };
 
   const StyledIcon = ({ iconType, name }: Styled) => (
     <Icon
@@ -35,7 +34,7 @@ export const PhotoLayout: FC<Props> = ({ theme, item, width }) => {
     />
   );
 
-  const image = { uri: featured };
+  const image = { uri: item.urls.raw };
 
   const top = {
     ...styles.container,
@@ -48,11 +47,7 @@ export const PhotoLayout: FC<Props> = ({ theme, item, width }) => {
   const imageStyle = {
     ...styles.image,
     width,
-    height: item.height,
-  };
-  const pin = {
-    ...styles.pin,
-    marginRight: width - 200,
+    height,
   };
 
   const handlePress = () => {
@@ -72,7 +67,7 @@ export const PhotoLayout: FC<Props> = ({ theme, item, width }) => {
           />
           <Text style={styles.username}>{item.user.username}</Text>
         </View>
-        <FastImage style={imageStyle} source={image} />
+        <Image style={imageStyle} source={image} />
         <View style={styles.bottomControls}>
           <StyledIcon iconType="feather" name="star" />
           <StyledIcon iconType="fontisto" name="hipchat" />

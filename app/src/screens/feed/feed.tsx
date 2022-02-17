@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
+import { PhotoLayout } from './components';
 
 import { useFeed } from './hooks';
 
