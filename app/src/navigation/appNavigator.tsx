@@ -5,8 +5,8 @@ import {
 } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 
-import { HeaderAppBar } from '../components';
-import { Feed, Settings } from '../screens';
+import { Settings } from '../screens';
+
 import { TabNavigator } from './tabNavigator';
 
 export type AppParamList = {
@@ -31,20 +31,15 @@ export type AppNavProps = {
   route: AppRoute;
 };
 
-export const AppNavigator: FC = ({ children }) => {
+export const AppNavigator: FC = () => {
   return (
     <AppStack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerShown: true,
-        header: () => <HeaderAppBar>{children}</HeaderAppBar>,
+        headerShown: false,
       }}
     >
-      <AppStack.Screen
-        name="Home"
-        component={TabNavigator}
-        options={{ headerShown: false }}
-      />
+      <AppStack.Screen name="Home" component={TabNavigator} />
       <AppStack.Screen name="Settings" component={Settings} />
     </AppStack.Navigator>
   );

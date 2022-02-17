@@ -18,7 +18,7 @@ interface Props {
   onPress?: () => void;
 }
 
-export const PhotoLayout: FC<Props> = ({ theme, item, width, height }) => {
+export const FeedLayout: FC<Props> = ({ theme, item, width, height }) => {
   const [expanded, setExpanded] = useState(false);
   const { colors } = theme;
   const { pad } = styles;
@@ -34,6 +34,7 @@ export const PhotoLayout: FC<Props> = ({ theme, item, width, height }) => {
     />
   );
 
+  // Sizing all done in the useFeed hook
   const image = { uri: item.urls.raw };
 
   const top = {

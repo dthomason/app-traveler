@@ -1,38 +1,5 @@
 type Orientation = 'landscape' | 'portrait';
 
-export type UserImage = {
-  color: string;
-  description: string;
-  id: string;
-  likedByUser: boolean;
-  likes: number;
-  links: {
-    self: string;
-    html: string;
-    download: string;
-    location: string;
-  };
-  location: string;
-  orientation: Orientation;
-  urls: {
-    full: string;
-    raw: string;
-    small: string;
-    regular: string;
-    thumb: string;
-  };
-  user: {
-    id: string;
-    username: string;
-    name: string;
-    profileImage: {
-      small: string;
-      medium: string;
-      large: string;
-    };
-  };
-};
-
 export const getUnique = () => new Date().getTime();
 
 export const getOrientation = (width: number, height: number): Orientation => {
