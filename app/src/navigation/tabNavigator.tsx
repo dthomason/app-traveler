@@ -2,8 +2,8 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import React, { FC } from 'react';
-import { Header } from 'react-native-elements';
+import React, { FC, useState } from 'react';
+import { Header, Icon, SearchBar } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 
 import { HeaderAppBar } from '../components';
@@ -27,6 +27,12 @@ export const TabNavigator: FC = children => {
   const {
     theme: { colors },
   } = useCustomTheme();
+  const [query, setQuery] = useState('');
+
+  const headerRightProps = {
+    tintColor: colors.text,
+    pressColor: colors.grey0,
+  };
 
   return (
     <Tab.Navigator
@@ -46,10 +52,34 @@ export const TabNavigator: FC = children => {
         options={{
           tabBarShowLabel: false,
           headerShown: true,
+          headerRight: ({ ...headerRightProps }) => (
+            <Icon
+              {...headerRightProps}
+              type="feather"
+              name="menu"
+              containerStyle={{ padding: 8, marginRight: 8 }}
+              color={colors.text}
+            />
+          ),
           tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Feather name="search" color={color} size={size} />
           ),
-          header: () => <HeaderAppBar />,
+          headerTitle: () => (
+            <SearchBar
+              value={query}
+              autoCapitalize="none"
+              onChangeText={text => setQuery(text)}
+              round={true}
+              placeholder="Search"
+              inputContainerStyle={{ maxHeight: 30, minWidth: 225 }}
+              containerStyle={{
+                borderWidth: 0,
+                padding: 0,
+                margin: 0,
+                borderRadius: 25,
+              }}
+            />
+          ),
         }}
       />
       <Tab.Screen name="Post" component={Post} options={tabBarOptions('zap')} />

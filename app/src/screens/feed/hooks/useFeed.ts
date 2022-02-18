@@ -1,3 +1,4 @@
+import { uniqBy } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 
 import { unsplash } from '../../../api/config';
@@ -9,8 +10,7 @@ export type PhotoInfo = FetchPhotoResponse & SearchPhotoResult;
 interface UseFeed {
   items: SearchPhotoResult[];
   addPage: () => void;
-  onPress: () => void;
-  expanded: boolean;
+  loading: boolean;
 }
 
 interface Config {
@@ -18,8 +18,8 @@ interface Config {
 }
 
 export const useFeed = ({ windowWidth }: Config): UseFeed => {
-  const [expanded, setExpanded] = useState(false);
   const [items, setItems] = useState<SearchPhotoResult[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const prevPage = useRef(0);
 
@@ -27,12 +27,10 @@ export const useFeed = ({ windowWidth }: Config): UseFeed => {
     setPage(current => current + 1);
   };
 
-  const onPress = () => {
-    setExpanded(!expanded);
-  };
-
   useEffect(() => {
     if (prevPage.current >= page) return;
+
+    setLoading(true);
 
     (async () => {
       try {
@@ -45,19 +43,23 @@ export const useFeed = ({ windowWidth }: Config): UseFeed => {
         });
 
         setItems(prev => {
-          return prevPage.current === 0 ? results : [...prev, ...results];
+          if (prevPage.current === 0) return results;
+
+          return uniqBy([...prev, ...results], 'id');
         });
 
+        setLoading(false);
         prevPage.current = page;
       } catch (err) {
+        setLoading(false);
+
         return;
       }
     })();
   }, [page, windowWidth]);
 
   return {
-    expanded,
-    onPress,
+    loading,
     addPage,
     items,
   };

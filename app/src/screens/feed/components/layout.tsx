@@ -1,9 +1,13 @@
 import React, { FC, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import { Avatar, Card, Icon, Text } from 'react-native-elements';
 
 import { SearchPhotoResult } from '../../../api/search';
 import { CustomTheme } from '../../../hooks';
+import Config from 'react-native-config';
+
+export const auth = Config.UNSPLASH_ACCESS_KEY;
 
 interface Styled {
   iconType: string;
@@ -21,32 +25,26 @@ interface Props {
 export const FeedLayout: FC<Props> = ({ theme, item, width, height }) => {
   const [expanded, setExpanded] = useState(false);
   const { colors } = theme;
-  const { pad } = styles;
+  const { pad, container, cardContainer, image } = styles;
   const avatarImage = { uri: item.user.profile_image.small };
 
   const StyledIcon = ({ iconType, name }: Styled) => (
-    <Icon
-      style={pad}
-      type={iconType}
-      tvParallaxProperties={undefined}
-      name={name}
-      color={colors.text}
-    />
+    <Icon style={pad} type={iconType} name={name} color={colors.text} />
   );
 
   // Sizing all done in the useFeed hook
-  const image = { uri: item.urls.raw };
+  const imageUrl = { uri: item.urls.raw };
 
   const top = {
-    ...styles.container,
+    ...container,
     width,
   };
   const card = {
-    ...styles.cardContainer,
+    ...cardContainer,
     backgroundColor: colors.background,
   };
   const imageStyle = {
-    ...styles.image,
+    ...image,
     width,
     height,
   };
@@ -68,7 +66,15 @@ export const FeedLayout: FC<Props> = ({ theme, item, width, height }) => {
           />
           <Text style={styles.username}>{item.user.username}</Text>
         </View>
-        <Image style={imageStyle} source={image} />
+        <FastImage
+          style={{ width, height }}
+          source={{
+            uri: item.urls.raw,
+            headers: { Authorization: `Client-ID ${auth}` },
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
         <View style={styles.bottomControls}>
           <StyledIcon iconType="feather" name="star" />
           <StyledIcon iconType="fontisto" name="hipchat" />

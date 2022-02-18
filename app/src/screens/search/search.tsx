@@ -1,36 +1,72 @@
-import { chunk } from 'lodash';
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback } from 'react';
 import { FlatList, StyleSheet, useWindowDimensions, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
+import { SearchPhotoResult } from '../../api/search';
+import { FooterLoading } from '../../components/footerLoading';
 import { useSearch } from '../../hooks';
+import { auth } from '../feed/components';
 
-import { SquarePanel } from './panel';
+interface RenderItem {
+  item: SearchPhotoResult;
+}
 
 export const Search: FC = () => {
   const { width } = useWindowDimensions();
-  const { addPage, items } = useSearch({ query: 'beach' });
+  const { addPage, items, loading } = useSearch();
 
   const oneThird = width / 3;
-  const chunkItems = chunk(items, 3);
 
-  const handleEndReached = () => {
+  const loadMoreResults = () => {
     addPage();
   };
+
+  const renderItem = ({ item }: RenderItem) => {
+    item.urls.raw = `${item.urls.raw}&w=${oneThird}&h=${oneThird}&fit=crop&crop=faces,center`;
+
+    return (
+      <View style={{ padding: 2 }}>
+        <FastImage
+          style={{ width: oneThird, height: oneThird }}
+          source={{
+            uri: item.urls.raw,
+            headers: { Authorization: `Client-ID ${auth}` },
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+      </View>
+    );
+  };
+
+  const keyExtractor = useCallback(item => `${item.id}`, []);
+
+  const itemLayout = useCallback(
+    (_, index) => {
+      return {
+        length: oneThird,
+        offset: (oneThird + 2) * index,
+        index,
+      };
+    },
+    [oneThird],
+  );
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={chunkItems}
-        keyExtractor={(item, i) => {
-          const extracted = item[i]?.id;
-
-          return extracted ? `${extracted}${i}` : `${Math.random() * 200}`;
-        }}
-        renderItem={({ item }) => {
-          return <SquarePanel item={item} width={oneThird} height={oneThird} />;
-        }}
-        onEndReached={handleEndReached}
+        data={items}
+        getItemLayout={itemLayout}
+        initialNumToRender={15}
+        keyExtractor={keyExtractor}
+        ListFooterComponent={loading ? FooterLoading : null}
+        maxToRenderPerBatch={20}
+        numColumns={3}
         onEndReachedThreshold={0.5}
+        removeClippedSubviews
+        onEndReached={loadMoreResults}
+        renderItem={renderItem}
+        scrollEventThrottle={250}
       />
     </View>
   );
