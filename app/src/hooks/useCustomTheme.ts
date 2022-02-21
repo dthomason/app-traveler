@@ -19,8 +19,7 @@ const theme = {
     },
     buttonStyle: {
       width: '100%',
-      borderRadius: 35,
-      backgroundColor: 'green',
+      borderRadius: 25,
     },
     titleStyle: {
       color: 'red',
