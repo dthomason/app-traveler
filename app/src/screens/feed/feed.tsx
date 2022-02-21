@@ -1,5 +1,11 @@
-import React, { FC, useCallback, useState } from 'react';
-import { FlatList, StyleSheet, useWindowDimensions, View } from 'react-native';
+import React, { FC, useCallback } from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 import { FooterLoading } from '../../components/footerLoading';
 import { useCustomTheme } from '../../hooks';
@@ -33,18 +39,20 @@ export const Feed: FC = () => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={items}
-        initialNumToRender={2}
-        keyExtractor={keyExtractor}
-        ListFooterComponent={loading ? FooterLoading : null}
-        maxToRenderPerBatch={5}
-        onEndReached={loadMoreResults}
-        onEndReachedThreshold={0.5}
-        removeClippedSubviews
-        renderItem={renderItem}
-        scrollEventThrottle={250}
-      />
+      <SafeAreaView>
+        <FlatList
+          data={items}
+          initialNumToRender={2}
+          keyExtractor={keyExtractor}
+          ListFooterComponent={loading ? FooterLoading : null}
+          maxToRenderPerBatch={5}
+          onEndReached={loadMoreResults}
+          onEndReachedThreshold={0.5}
+          removeClippedSubviews
+          renderItem={renderItem}
+          scrollEventThrottle={250}
+        />
+      </SafeAreaView>
     </View>
   );
 };
