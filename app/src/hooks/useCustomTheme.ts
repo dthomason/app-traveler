@@ -19,8 +19,7 @@ const theme = {
     },
     buttonStyle: {
       width: '100%',
-      borderRadius: 35,
-      backgroundColor: 'green',
+      borderRadius: 25,
     },
     titleStyle: {
       color: 'red',
@@ -29,7 +28,7 @@ const theme = {
   Text: {
     style: {
       color: black,
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'Proxima Nova',
     },
   },
 };
@@ -46,11 +45,31 @@ const DefaultElements = {
     background: white,
     border: colors.grey4,
     text: black,
+    platform: {
+      ios: {
+        primary: '#007aff',
+        secondary: '#5856d6',
+        grey: '#7d7d7d',
+        searchBg: '#dcdce1',
+        success: '#4cd964',
+        error: '#ff3b30',
+        warning: '#ffcc00',
+      },
+      android: {
+        primary: '#2196f3',
+        secondary: '#9C27B0',
+        grey: 'rgba(0, 0, 0, 0.54)',
+        searchBg: '#dcdce1',
+        success: '#4caf50',
+        error: '#f44336',
+        warning: '#ffeb3b',
+      },
+    },
   },
   Text: {
     style: {
       color: black,
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'Proxima Nova',
     },
   },
 };
@@ -63,15 +82,35 @@ const DarkElements = {
     secondary: '#6AD45E',
     white: white,
     black: black,
-    card: '#2B2B2B',
+    card: '#101010',
     background: black,
     text: white,
     border: colors.grey0,
+    platform: {
+      ios: {
+        primary: '#1b262c',
+        secondary: '#2089dc',
+        grey: '#ffffff',
+        searchBg: '#393e42',
+        success: '#439946',
+        error: '#bf2c24',
+        warning: '#cfbe27',
+      },
+      android: {
+        primary: '#1b262c',
+        secondary: '#2089dc',
+        grey: '#393e42',
+        searchBg: '#393e42',
+        success: '#439946',
+        error: '#bf2c24',
+        warning: '#cfbe27',
+      },
+    },
   },
   Text: {
     style: {
       color: white,
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'Proxima Nova',
     },
   },
 };
@@ -103,6 +142,8 @@ const DarkNav = {
     notification: DarkElements.colors.success,
   },
 };
+
+export type CustomTheme = ElementTheme & NavigationTheme;
 
 interface UseCustomTheme {
   theme: ElementTheme & NavigationTheme;

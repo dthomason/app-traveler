@@ -1,34 +1,42 @@
 export const userPhoto = {
-  id: 'Dwu85P9SOIk',
+  id: 'LBI7cgq3pbM',
   created_at: '2016-05-03T11:00:28-04:00',
   updated_at: '2016-07-10T11:00:01-05:00',
-  width: 2448,
-  height: 3264,
-  color: '#6E633A',
-  blur_hash: 'LFC$yHwc8^$yIAS$%M%00KxukYIp',
-  downloads: 1345,
-  likes: 24,
+  width: 5245,
+  height: 3497,
+  color: '#60544D',
+  blur_hash: 'LoC%a7IoIVxZ_NM|M{s:%hRjWAo0',
+  likes: 12,
   liked_by_user: false,
-  public_domain: false,
   description: 'A man drinking a coffee.',
-  exif: {
-    make: 'Canon',
-    model: 'Canon EOS 40D',
-    name: 'Canon, EOS 40D',
-    exposure_time: '0.011111111111111112',
-    aperture: '4.970854',
-    focal_length: '37',
-    iso: 100,
-  },
-  location: {
-    city: 'Montreal',
-    country: 'Canada',
-    position: {
-      latitude: 45.473298,
-      longitude: -73.638488,
+  user: {
+    id: 'pXhwzz1JtQU',
+    username: 'poorkane',
+    name: 'Gilbert Kane',
+    portfolio_url: 'https://theylooklikeeggsorsomething.com/',
+    bio: 'XO',
+    location: 'Way out there',
+    total_likes: 5,
+    total_photos: 74,
+    total_collections: 52,
+    instagram_username: 'instantgrammer',
+    twitter_username: 'crew',
+    profile_image: {
+      small:
+        'https://images.unsplash.com/face-springmorning.jpg?q=80&fm=jpg&crop=faces&fit=crop&h=32&w=32',
+      medium:
+        'https://images.unsplash.com/face-springmorning.jpg?q=80&fm=jpg&crop=faces&fit=crop&h=64&w=64',
+      large:
+        'https://images.unsplash.com/face-springmorning.jpg?q=80&fm=jpg&crop=faces&fit=crop&h=128&w=128',
+    },
+    links: {
+      self: 'https://api.unsplash.com/users/poorkane',
+      html: 'https://unsplash.com/poorkane',
+      photos: 'https://api.unsplash.com/users/poorkane/photos',
+      likes: 'https://api.unsplash.com/users/poorkane/likes',
+      portfolio: 'https://api.unsplash.com/users/poorkane/portfolio',
     },
   },
-  tags: [{ title: 'man' }, { title: 'drinking' }, { title: 'coffee' }],
   current_user_collections: [
     // The *current user's* collections that this photo belongs to.
     {
@@ -40,50 +48,24 @@ export const userPhoto = {
       cover_photo: null,
       user: null,
     },
+    // ... more collections
   ],
   urls: {
-    raw: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d',
-    full: 'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg',
+    raw: 'https://images.unsplash.com/face-springmorning.jpg',
+    full: 'https://images.unsplash.com/face-springmorning.jpg?q=75&fm=jpg',
     regular:
-      'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max',
+      'https://images.unsplash.com/face-springmorning.jpg?q=75&fm=jpg&w=1080&fit=max',
     small:
-      'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max',
+      'https://images.unsplash.com/face-springmorning.jpg?q=75&fm=jpg&w=400&fit=max',
     thumb:
-      'https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=200&fit=max',
+      'https://images.unsplash.com/face-springmorning.jpg?q=75&fm=jpg&w=200&fit=max',
   },
   links: {
-    self: 'https://api.unsplash.com/photos/Dwu85P9SOIk',
-    html: 'https://unsplash.com/photos/Dwu85P9SOIk',
-    download: 'https://unsplash.com/photos/Dwu85P9SOIk/download',
-  },
-  user: {
-    id: 'QPxL2MGqfrw',
-    updated_at: '2016-07-10T11:00:01-05:00',
-    username: 'exampleuser',
-    name: 'Joe Example',
-    portfolio_url: 'https://example.com/',
-    bio: 'Just an everyday Joe',
-    location: 'Montreal',
-    total_likes: 5,
-    total_photos: 10,
-    total_collections: 13,
-    links: {
-      self: 'https://api.unsplash.com/users/exampleuser',
-      html: 'https://unsplash.com/exampleuser',
-      photos: 'https://api.unsplash.com/users/exampleuser/photos',
-      likes: 'https://api.unsplash.com/users/exampleuser/likes',
-      portfolio: 'https://api.unsplash.com/users/exampleuser/portfolio',
-    },
+    self: 'https://api.unsplash.com/photos/LBI7cgq3pbM',
+    html: 'https://unsplash.com/photos/LBI7cgq3pbM',
+    download: 'https://unsplash.com/photos/LBI7cgq3pbM/download',
+    download_location: 'https://api.unsplash.com/photos/LBI7cgq3pbM/download',
   },
 };
 
 export type UserImageInfo = typeof userPhoto;
-
-export type UserImage = {
-  description: string;
-  id: string;
-  urls: {
-    small: string;
-    regular: string;
-  };
-};
