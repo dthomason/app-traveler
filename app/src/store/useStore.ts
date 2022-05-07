@@ -51,7 +51,7 @@ interface TypedValues {
 }
 
 export interface UserStore {
-  feedItems: SearchPhotoResult[];
+  listItems: SearchPhotoResult[];
   searchProps: QueryProps;
   feedProps: QueryProps;
   hasHydrated: boolean;
@@ -60,7 +60,7 @@ export interface UserStore {
   signedIn: boolean;
   typedValues: TypedValues;
   permissions: Permissions;
-  setFeedItems: (feedItems: SearchPhotoResult[]) => void;
+  setListItems: (feedItems: SearchPhotoResult[]) => void;
   setSearchProps: (searchProps: QueryProps) => void;
   setFeedProps: (feedProps: QueryProps) => void;
   setTypedValues: (typed: TypedValues) => void;
@@ -73,7 +73,7 @@ export interface UserStore {
 export const useStore = create<UserStore>(
   persist(
     im(set => ({
-      feedItems: [],
+      listItems: [],
       searchProps: { query: '', pageNumber: 0, perPage: 0 },
       feedProps: { query: '', pageNumber: 0, perPage: 0 },
       hasHydrated: false,
@@ -82,7 +82,7 @@ export const useStore = create<UserStore>(
       permissions: 'undefined',
       signedIn: false,
       typedValues: {},
-      setFeedItems: (feedItems: SearchPhotoResult[]) => set({ feedItems }),
+      setListItems: (listItems: SearchPhotoResult[]) => set({ listItems }),
       setSearchProps: (searchProps: QueryProps) => set({ searchProps }),
       setFeedProps: (feedProps: QueryProps) => set({ feedProps }),
       setDarkMode: (dark: boolean) => set({ isDark: dark }),
@@ -99,7 +99,7 @@ export const useStore = create<UserStore>(
       name: 'app_travelers_store',
       getStorage: () => AsyncStorage,
       partialize: state => ({
-        feedItems: state.feedItems,
+        listItems: state.listItems,
         searchProps: state.searchProps,
         signedIn: state.signedIn,
         permissions: state.permissions,

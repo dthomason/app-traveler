@@ -1,8 +1,11 @@
 import React, { FC, useCallback } from 'react';
 import {
   FlatList,
+  Platform,
   SafeAreaView,
   StyleSheet,
+  Text,
+  TouchableHighlight,
   useWindowDimensions,
   View,
 } from 'react-native';
@@ -48,7 +51,7 @@ export const Feed: FC = () => {
           maxToRenderPerBatch={5}
           onEndReached={loadMoreResults}
           onEndReachedThreshold={0.5}
-          removeClippedSubviews
+          removeClippedSubviews={true}
           renderItem={renderItem}
           scrollEventThrottle={250}
         />

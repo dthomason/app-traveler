@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { consoleAxiosError, isAxiosError, unsplash } from '../api';
 import { SearchPhotoResult, SearchPhotosResponse } from '../api/search';
-import { SearchProps, useStore } from '../store';
+import { QueryProps, useStore } from '../store';
 
 const UNSPLASH_BASE = 'https://api.unsplash.com/photos/search';
 
@@ -19,7 +19,7 @@ export const useFetchItems = () => {
     query,
     pageNumber,
     perPage,
-  }: SearchProps): Promise<SearchPhotoResult[] | undefined> => {
+  }: QueryProps): Promise<SearchPhotoResult[] | undefined> => {
     try {
       const url = `${UNSPLASH_BASE}?query=${query}&page=${pageNumber}&per_page=${perPage}`;
 
